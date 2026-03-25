@@ -1,32 +1,49 @@
 package edu.sdccd.cisc191.model;
 
 public class Course {
-    private int id;
-    private String title;
-    private int studentId;
+    private final int id;
+    private final String title;
+    private final int studentId;
 
     public Course(int id, String title, int studentId) {
-        // TODO validate fields and assign them
+        if (id <= 0) {
+            throw new IllegalArgumentException("Course IDs must be positive.");
+        }
+
+        if (title == null || title.trim().isEmpty()) {
+            throw new IllegalArgumentException("Course Titles must not be null or empty.");
+        } else if (title.length() > 100) {
+            // course.title is VARCHAR(100)
+            throw new IllegalArgumentException("Course Titles cannot exceed 100 characters.");
+        }
+
+        if (studentId <= 0) {
+            throw new IllegalArgumentException("Courses must be supplied with positive Student IDs.");
+        }
+
+        this.id = id;
+        this.title = title;
+        this.studentId = studentId;
     }
 
     public int getId() {
-        // TODO
-        return 0;
+        return this.id;
     }
 
     public String getTitle() {
-        // TODO
-        return null;
+        return this.title;
     }
 
     public int getStudentId() {
-        // TODO
-        return 0;
+        return this.studentId;
     }
 
     @Override
     public String toString() {
-        // TODO
-        return "";
+        // Ex: Course{id=41, title='Intro', studentId=23}
+        return String.format(
+            "%s{id=%d, title='%s', studentId=%d}",
+            this.getClass().getSimpleName(), this.id, this.title, this.studentId
+        );
     }
 }
